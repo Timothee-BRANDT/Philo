@@ -7,6 +7,7 @@ FLAGS = -Wall -Wextra -Werror -pthread
 SRC     =       main.c          \
 				utils.c			\
 				start.c			\
+				parsing.c		\
 
 
 OBJS = ${SRC:.c=.o}
