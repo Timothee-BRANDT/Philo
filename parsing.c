@@ -32,15 +32,15 @@ int     check_num_param(char **argv)
         return (0);
 }
 
-int     check_positive_param(t_philo **philo)
+int     check_positive_param(t_param *param)
 {
-        if ((*philo)->params.nb_philo < 1)
+        if (param->nb_philo < 1)
                 return (1);
-        if ((*philo)->params.time_to_die <= 0)
+        if (param->time_to_die <= 0)
                 return (1);
-        if ((*philo)->params.time_to_eat <= 0)
+        if (param->time_to_eat <= 0)
                 return (1);
-        if ((*philo)->params.time_to_sleep <= 0)
+        if (param->time_to_sleep <= 0)
                 return (1);
         return (0);
 }
