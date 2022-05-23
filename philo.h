@@ -31,6 +31,6 @@ int     init_params(int argc, char **argv, t_param *param);
 int     check_num_param(char **argv);
 int     check_positive_param(t_param *param);
 void    *routine();
-int     init_threads(t_philo *philo, t_param param);
+int     init_mutex_and_threads(t_philo *philo, t_param param);
 
 #endif

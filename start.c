@@ -32,20 +32,35 @@ int    init_params(int argc, char **argv, t_param *param)
 
 void    *routine()
 {
+    // need to cast (void *args) to t_philo;
+    //pthread_mutex_lock();
     printf("i'm a thread\n");
+    //pthread_mutex_unlock();
     return (NULL); 
 }
 
-int	init_threads(t_philo *philo, t_param param)
+int init_mutex_and_threads(t_philo *philo, t_param param)
 {
-	int i;
+    int i;
+
     i = 0;
-    philo = malloc(sizeof(t_philo) * param.nb_philo);
     while (i < param.nb_philo)
     {
-        pthread_create(&philo[i].thread, NULL, &routine, NULL);
         pthread_mutex_init(&philo[i].mutex, NULL);
-        pthread_join(philo[i].thread, NULL);
+        i++;
+    }
+    i = 0;
+    while(i < param.nb_philo)
+    {
+        if (pthread_create(&philo[i].thread, NULL, &routine, NULL) != 0)
+            return (1);
+        i++;
+    }
+    i = 0;
+    while(i < param.nb_philo)
+    {
+        if (pthread_join(philo[i].thread, NULL) != 0)
+            return (2);
         i++;
     }
     return (0);
