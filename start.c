@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:19:31 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/05/12 17:01:58 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/05/23 11:4 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,26 @@ int    init_params(int argc, char **argv, t_param *param)
     }
     if (check_positive_param(param))
         return (1);
+    return (0);
+}
+
+void    *routine()
+{
+    printf("i'm a thread\n");
+    return (NULL); 
+}
+
+int	init_threads(t_philo *philo, t_param param)
+{
+	int i;
+    i = 0;
+    philo = malloc(sizeof(t_philo) * param.nb_philo);
+    while (i < param.nb_philo)
+    {
+        pthread_create(&philo[i].thread, NULL, &routine, NULL);
+        pthread_mutex_init(&philo[i].mutex, NULL);
+        pthread_join(philo[i].thread, NULL);
+        i++;
+    }
     return (0);
 }
