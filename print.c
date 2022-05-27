@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 13:16:44 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/05/27 11:33:02 by tbrandt          ###   ########.fr       */
+/*   Created: 2022/05/25 14:41:13 by tbrandt           #+#    #+#             */
+/*   Updated: 2022/05/27 11:51:08 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+int	print_status(t_philo *philo, int code)
 {
-	t_philo	*philo;
-	t_param	param;
+	pthread_mutex_t status;
 
-	if (argc == 5 || argc == 6)
-	{
-		if (init_params(argc, argv, &param))
-			return (on_error("Bad arguments.\n", 1));
-		philo = malloc(sizeof(t_philo) * param.nb_philo);
-		if (init_mutex_and_threads(philo, param))
-			return (on_error("Threads initialisaiton failed.\n", 2));
-	}
-	else
-		printf("Invalid number of arguments.\n");
+	pthread_mutex_lock(&status);
+	if (code == 0)
+		printf("%ld %d has taken a fork\n", get_time(), philo->number);
+	if (code == 1)
+		printf("%ld %d is eating\n", get_time(), philo->number);
+	if (code == 2)
+		printf("%ld %d is sleeping\n", get_time(), philo->number);
+	if (code == 3)
+		printf("%ld %d is thinking\n", get_time(), philo->number);
+	pthread_mutex_unlock(&status);
 	return (0);
 }

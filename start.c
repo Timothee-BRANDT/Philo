@@ -19,6 +19,7 @@ int	init_params(int argc, char **argv, t_param *param)
 	param->nb_philo = ft_atoi(argv[1]);
 	param->time_to_die = ft_atoi(argv[2]);
 	param->time_to_eat = ft_atoi(argv[3]);
+
 	param->time_to_sleep = ft_atoi(argv[4]);
 	param->nb_eat_by_ph = -1;
 	if (check_positive_param(param))
@@ -30,40 +31,45 @@ int	init_params(int argc, char **argv, t_param *param)
 
 void	*routine(void *args)
 {
-	t_philo	*cast;
+	t_philo *philo;
 
-	cast = (t_philo *)args;
-	pthread_mutex_lock(&cast->mutex);
-	printf("i'm a thread\n");
-	pthread_mutex_unlock(&cast->mutex);
+	philo = (t_philo *)(args);
+	// fonction life
+	print_status(philo, 0);
 	return (NULL);
+}
+
+void	init_philo(t_philo *philo, t_param param)
+{
+	int	i;
+
+	i = 0;
+	while(i < param.nb_philo)
+	{
+		philo[i].number = i;
+		i++;
+	}
 }
 
 int	init_mutex_and_threads(t_philo *philo, t_param param)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	while (++i < param.nb_philo + 1)
-	{
-		philo[j].number = i;
-		j++;
-	}
+	init_philo(philo, param);
 	i = -1;
 	while (++i < param.nb_philo)
 		pthread_mutex_init(&philo[i].mutex, NULL);
 	i = -1;
+	param.init_time = get_time();
 	while (++i < param.nb_philo)
 	{
-		if (pthread_create(&philo[i].thread, NULL, &routine, philo) != 0)
+		if (pthread_create(&philo[i].thread, NULL, &routine, &philo[i]) != 0)
 			return (1);
 	}
 	i = -1;
 	while (++i < param.nb_philo)
 	{
-		if (pthread_detach(philo[i].thread) != 0)
+		if (pthread_join(philo[i].thread, NULL) != 0)
 			return (2);
 	}
 	return (0);

@@ -8,7 +8,7 @@ SRC     =       main.c          \
 				utils.c			\
 				start.c			\
 				parsing.c		\
-
+				print.c			\
 
 OBJS = ${SRC:.c=.o}
 
