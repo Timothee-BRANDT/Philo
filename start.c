@@ -34,8 +34,8 @@ void	*routine(void *args)
 	t_philo *philo;
 
 	philo = (t_philo *)(args);
-	// fonction life
-	print_status(philo, 0);
+	//fonction life
+	//print_status(philo, 0);
 	return (NULL);
 }
 
@@ -47,6 +47,9 @@ void	init_philo(t_philo *philo, t_param param)
 	while(i < param.nb_philo)
 	{
 		philo[i].number = i;
+		philo[i].left_fork = i;
+		philo[i].right_fork = (i + 1) % param.nb_philo;
+		philo[i].param = &param;
 		i++;
 	}
 }
@@ -57,10 +60,10 @@ int	init_mutex_and_threads(t_philo *philo, t_param param)
 
 	init_philo(philo, param);
 	i = -1;
-	while (++i < param.nb_philo)
-		pthread_mutex_init(&philo[i].mutex, NULL);
+	/*while (++i < param.nb_philo)
+		pthread_mutex_init(&philo[i].fork[i], NULL);*/
 	i = -1;
-	param.init_time = get_time();
+	philo->param->init_time = get_time();
 	while (++i < param.nb_philo)
 	{
 		if (pthread_create(&philo[i].thread, NULL, &routine, &philo[i]) != 0)

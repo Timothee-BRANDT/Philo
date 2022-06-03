@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:08:20 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/05/27 11:51:03 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/06/03 17:22:16 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ typedef struct s_param{
 
 typedef struct s_philo{
 	int				number;
-	int				fork;
+	int				left_fork;
+	int				right_fork;
 	int				nb_eat;
 	int				alive;
 	long			time_start;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	status;
+	t_param			*param;
 	pthread_t		thread;
 }		t_philo;
 
@@ -48,6 +51,7 @@ int		init_mutex_and_threads(t_philo *philo, t_param param);
 void	init_philo(t_philo *philo, t_param param);
 int		print_status(t_philo *philo, int code);
 int		on_error(char *str, int code);
+void	take_fork(t_philo *philo);
 void	*routine(void *args);
 long	get_time(void);
 
