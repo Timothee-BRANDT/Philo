@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:08:20 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/06/03 17:22:16 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/05 17:53:56 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <unistd.h> // write allowed
 # include <pthread.h>
 # include <sys/time.h>
+
+# define FORK 0
+# define EAT 1
+# define THINK 2
+# define SLEEP 3
 
 typedef struct s_param{
 	int		nb_philo;
@@ -33,9 +38,10 @@ typedef struct s_philo{
 	int				number;
 	int				left_fork;
 	int				right_fork;
-	int				nb_eat;
+	int				eat_count;
 	int				alive;
 	long			time_start;
+	long			last_eat;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	status;
 	t_param			*param;
@@ -52,7 +58,11 @@ void	init_philo(t_philo *philo, t_param param);
 int		print_status(t_philo *philo, int code);
 int		on_error(char *str, int code);
 void	take_fork(t_philo *philo);
+void	fork_back(t_philo *philo);
+void    mysleep(long int ms);
+void	feeling_sleepy(t_philo *philo);
 void	*routine(void *args);
 long	get_time(void);
+void	eat(t_philo *philo);
 
 #endif
