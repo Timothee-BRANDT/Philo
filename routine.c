@@ -14,25 +14,25 @@
 
 void take_fork(t_philo *philo)
 {
-	if (philo->param->nb_philo % 2) // philo->number?
+	if (philo->number % 2)
 	{
-		pthread_mutex_lock(&philo->fork[philo->right_fork]);
-		pthread_mutex_lock(&philo->fork[philo->left_fork]);
+		pthread_mutex_lock(&philo->mutex->fork[philo->left_fork]);
 		print_status(philo, FORK);
+		pthread_mutex_lock(&philo->mutex->fork[philo->right_fork]);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->fork[philo->left_fork]);
-		pthread_mutex_lock(&philo->fork[philo->right_fork]);
+		pthread_mutex_lock(&philo->mutex->fork[philo->right_fork]);
 		print_status(philo, FORK);
+		pthread_mutex_lock(&philo->mutex->fork[philo->left_fork]);
 	}
 	print_status(philo, FORK);
 }
 
 void	fork_back(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->fork[philo->left_fork]);
-	pthread_mutex_unlock(&philo->fork[philo->right_fork]);
+	pthread_mutex_unlock(&philo->mutex->fork[philo->left_fork]);
+	pthread_mutex_unlock(&philo->mutex->fork[philo->right_fork]);
 }
 
 void    eat(t_philo *philo)
@@ -48,11 +48,10 @@ void	feeling_sleepy(t_philo *philo)
 	mysleep(philo->param->time_to_sleep);
 }
 
-void    mysleep(long int ms)
+void    mysleep(long	ms)
 {
-    long int    time;
+    long	time;
     time = get_time();
     while ((get_time() - time) < ms)
-        usleep(ms);
-    usleep(1);
+        usleep(500);
 }
