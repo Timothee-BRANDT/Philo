@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:08:20 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/06 15:41:47 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/07 15:30:20 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define EAT 1
 # define THINK 2
 # define SLEEP 3
+# define DIE 4
 
 typedef struct s_mutex{
 	pthread_mutex_t status;
@@ -36,6 +37,7 @@ typedef struct s_param{
 	int		time_to_sleep;
 	int		nb_eat_by_ph;
 	int		nb_ph_feed;
+	int		alive;
 	long	init_time;
 }		t_param;
 
@@ -44,7 +46,6 @@ typedef struct s_philo{
 	int				left_fork;
 	int				right_fork;
 	int				eat_count;
-	int				alive;
 	long			time_start;
 	long			last_eat;
 	t_param			*param;
@@ -67,6 +68,7 @@ void	eat(t_philo *philo);
 void	fork_back(t_philo *philo);
 void	feeling_sleepy(t_philo *philo);
 void	thinking(t_philo *philo);
+void	death_handler(t_philo *philo);
 void    mysleep(long int ms);
 void	*routine(void *args);
 long	get_time(void);

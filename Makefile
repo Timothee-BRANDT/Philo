@@ -6,7 +6,7 @@ FLAGS = -Wall -Wextra -Werror -pthread -g
 
 SRC     =       main.c          \
 				utils.c			\
-				start.c			\
+				init.c			\
 				parsing.c		\
 				print.c			\
 				routine.c		\

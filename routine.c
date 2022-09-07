@@ -12,40 +12,45 @@
 
 #include "philo.h"
 
-void take_fork(t_philo *philo)
+void	death_handler(t_philo *philo)
 {
-	if (philo->number % 2)
-	{
-		pthread_mutex_lock(&philo->mutex->fork[philo->left_fork]);
-		print_status(philo, FORK);
-		pthread_mutex_lock(&philo->mutex->fork[philo->right_fork]);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->mutex->fork[philo->right_fork]);
-		print_status(philo, FORK);
-		pthread_mutex_lock(&philo->mutex->fork[philo->left_fork]);
-	}
-	print_status(philo, FORK);
+	print_status(philo, DIE);
+	philo->param->alive = 0;
 }
 
-void	fork_back(t_philo *philo)
+void	*checker(void *args)
 {
-	pthread_mutex_unlock(&philo->mutex->fork[philo->left_fork]);
-	pthread_mutex_unlock(&philo->mutex->fork[philo->right_fork]);
+	t_philo *philo;
+
+	philo = (t_philo *)(args);
+	while (philo->param->alive)
+	{
+		if (get_time() > philo->last_eat + philo->param->time_to_die)
+			death_handler(philo);
+	}
+	return (NULL);
 }
 
-void    eat(t_philo *philo)
+void	*routine(void *args)
 {
+	t_philo *philo;
+	pthread_t check;
+
+	philo = (t_philo *)(args);
 	philo->last_eat = get_time();
-	print_status(philo, EAT);
-	mysleep(philo->param->time_to_eat);
-}
-
-void	feeling_sleepy(t_philo *philo)
-{
-	print_status(philo, SLEEP);
-	mysleep(philo->param->time_to_sleep);
+	pthread_create(&check, NULL, &checker, philo);
+	while(philo->param->alive)
+	{
+		take_fork(philo);
+		eat(philo);
+		//if (get_time() > philo->last_eat + philo->param->time_to_die)
+		//	printf("I AM DEAD");
+		fork_back(philo);
+		feeling_sleepy(philo);
+		thinking(philo);
+	}
+	pthread_join(check, NULL);
+	return (NULL);
 }
 
 void    mysleep(long	ms)
@@ -54,4 +59,5 @@ void    mysleep(long	ms)
     time = get_time();
     while ((get_time() - time) < ms)
         usleep(500);
+	usleep(1);
 }
