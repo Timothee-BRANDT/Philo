@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:16:44 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/06 15:36:48 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:31:33 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char *argv[])
 {
 	t_philo	*philo;
 	t_param	param;
-	t_mutex mutex;
+	t_mutex	mutex;
 
 	if (argc == 5 || argc == 6)
 	{

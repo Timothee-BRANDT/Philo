@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:29:45 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/08/29 16:44:01 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:30:49 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int	on_error(char *str, int code)
 	return (code);
 }
 
-long get_time(void)
+long	get_time(void)
 {
-	long time;
-	struct timeval tv;
+	long			time;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == -1)
 		return (0);

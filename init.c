@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:19:31 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 15:57:12 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:23:57 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	init_params(int argc, char **argv, t_param *param)
 	param->nb_philo = ft_atoi(argv[1]);
 	param->time_to_die = ft_atoi(argv[2]);
 	param->time_to_eat = ft_atoi(argv[3]);
-
 	param->time_to_sleep = ft_atoi(argv[4]);
 	param->nb_eat_by_ph = -1;
 	if (check_positive_param(param))
@@ -35,7 +34,7 @@ void	init_philo(t_philo *philo, t_param *param, t_mutex *mutex)
 	int	i;
 
 	i = 0;
-	while(i < param->nb_philo)
+	while (i < param->nb_philo)
 	{
 		philo[i].param = param;
 		philo[i].mutex = mutex;
@@ -50,13 +49,13 @@ void	init_philo(t_philo *philo, t_param *param, t_mutex *mutex)
 int	init_mutex(t_philo *philo, t_mutex *mutex)
 {
 	int	i;
-	
+
 	pthread_mutex_init(&mutex->status, NULL);
-	mutex->fork	= malloc(sizeof(pthread_mutex_t) * philo->param->nb_philo);
+	mutex->fork = malloc(sizeof(pthread_mutex_t) * philo->param->nb_philo);
 	if (!mutex->fork)
 		return (1);
 	i = 0;
-	while(i < philo->param->nb_philo)
+	while (i < philo->param->nb_philo)
 	{
 		pthread_mutex_init(&mutex->fork[i], NULL);
 		i++;

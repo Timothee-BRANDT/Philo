@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:08:20 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 15:30:20 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:25:39 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define DIE 4
 
 typedef struct s_mutex{
-	pthread_mutex_t status;
-	pthread_mutex_t *fork;
+	pthread_mutex_t	status;
+	pthread_mutex_t	*fork;
 }		t_mutex;
 
 typedef struct s_param{
@@ -69,7 +69,7 @@ void	fork_back(t_philo *philo);
 void	feeling_sleepy(t_philo *philo);
 void	thinking(t_philo *philo);
 void	death_handler(t_philo *philo);
-void    mysleep(long int ms);
+void	mysleep(long int ms);
 void	*routine(void *args);
 long	get_time(void);
 
