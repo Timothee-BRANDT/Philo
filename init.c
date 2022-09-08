@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:19:31 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 17:23:57 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/08 11:26:28 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,22 @@ void	init_philo(t_philo *philo, t_param *param, t_mutex *mutex)
 int	init_mutex(t_philo *philo, t_mutex *mutex)
 {
 	int	i;
+	int	nb;
 
+	nb = philo->param->nb_philo;
 	pthread_mutex_init(&mutex->status, NULL);
-	mutex->fork = malloc(sizeof(pthread_mutex_t) * philo->param->nb_philo);
+	mutex->fork = malloc(sizeof(pthread_mutex_t) * nb);
 	if (!mutex->fork)
 		return (1);
-	i = 0;
-	while (i < philo->param->nb_philo)
-	{
+	mutex->eat_or_die = malloc(sizeof(pthread_mutex_t) * nb);
+	if (!mutex->fork)
+		return (1);
+	i = -1;
+	while (++i < philo->param->nb_philo)
 		pthread_mutex_init(&mutex->fork[i], NULL);
-		i++;
-	}
+	i = -1;
+	while (++i < philo->param->nb_philo)
+		pthread_mutex_init(&mutex->eat_or_die[i], NULL);
 	return (0);
 }
 
@@ -90,4 +95,18 @@ int	init_threads(t_philo *philo, t_param param)
 			return (2);
 	}
 	return (0);
+}
+
+void	destroy_and_free(t_philo *philo)
+{
+	int	i;
+
+	pthread_mutex_destroy(&philo->mutex->status);
+	i = -1;
+	while (++i < philo->param->nb_philo)
+		pthread_mutex_destroy(&philo->mutex->fork[i]);
+	i = -1;
+	while (++i < philo->param->nb_eat_by_ph)
+		pthread_mutex_destroy(&philo->mutex->eat_or_die[i]);
+	free(philo);
 }

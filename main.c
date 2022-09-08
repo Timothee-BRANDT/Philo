@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:16:44 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 17:31:33 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:39:34 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char *argv[])
 			return (on_error("Mutex initialisation failed\n", 2));
 		if (init_threads(philo, param))
 			return (on_error("Threads initialisaiton failed.\n", 3));
+		destroy_and_free(philo);
 	}
 	else
 		printf("Invalid number of arguments.\n");

@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:08:20 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 17:25:39 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/08 11:25:16 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_mutex{
 	pthread_mutex_t	status;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	*eat_or_die;
 }		t_mutex;
 
 typedef struct s_param{
@@ -62,6 +63,7 @@ int		init_threads(t_philo *philo, t_param param);
 int		init_mutex(t_philo *philo, t_mutex *mutex);
 void	init_philo(t_philo *philo, t_param *param, t_mutex *mutex);
 int		print_status(t_philo *philo, int code);
+void	handle_philo(t_philo *philo);
 int		on_error(char *str, int code);
 void	take_fork(t_philo *philo);
 void	eat(t_philo *philo);
@@ -70,6 +72,7 @@ void	feeling_sleepy(t_philo *philo);
 void	thinking(t_philo *philo);
 void	death_handler(t_philo *philo);
 void	mysleep(long int ms);
+void	destroy_and_free(t_philo *philo);
 void	*routine(void *args);
 long	get_time(void);
 

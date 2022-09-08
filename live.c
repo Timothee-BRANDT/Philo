@@ -6,7 +6,7 @@
 /*   By: tbrandt <tbrandt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 15:40:17 by tbrandt           #+#    #+#             */
-/*   Updated: 2022/09/07 17:24:56 by tbrandt          ###   ########.fr       */
+/*   Updated: 2022/09/08 10:25:32 by tbrandt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ void	take_fork(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->mutex->eat_or_die[philo->number]);
 	philo->last_eat = get_time();
 	print_status(philo, EAT);
 	pthread_mutex_lock(&philo->mutex->status);
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->mutex->status);
+	pthread_mutex_unlock(&philo->mutex->eat_or_die[philo->number]);
 	mysleep(philo->param->time_to_eat);
 }
 
